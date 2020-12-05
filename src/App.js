@@ -8,14 +8,29 @@ class  App extends Component {
     this.state = {
       isGeneralEdit: true,
     }
-    this.handleClick = this.handleGeneralSubmit.bind(this)
+    this.handleGeneralSubmit = this.handleGeneralSubmit.bind(this)
+    this.toggleGeneralEdit = this.toggleGeneralEdit.bind(this)
   }
 
   handleGeneralSubmit(props) {
     this.setState( (prevState) => {
       return {
-        ...prevState
-        
+        ...prevState,
+        info: {
+          name: props.name,
+          email: props.email,
+          phone: props.phone
+        },
+        isGeneralEdit: !prevState.isGeneralEdit
+      }
+    })
+  }
+
+  toggleGeneralEdit() {
+    this.setState( (prevState) => {
+      return {
+        ...prevState,
+        isGeneralEdit: !prevState.isGeneralEdit
       }
     })
   }
@@ -24,10 +39,9 @@ class  App extends Component {
     return (
       <div className="App">
         {this.state.isGeneralEdit ? 
-          <GeneralEdit submit={this.handleGeneralSubmit}/> : 
-          <GeneralDisplay />
+          <GeneralEdit submit={this.handleGeneralSubmit} info={this.state.info}/> : 
+          <GeneralDisplay submit={this.toggleGeneralEdit} info={this.state.info}/>
         }
-        <button onClick={this.handleGeneralSubmit}>State</button>
       </div>
     )
   }
